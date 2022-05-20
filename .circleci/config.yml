@@ -131,7 +131,7 @@ jobs:
       docker:
         - image: 'cimg/base:stable'
       steps:
-        - run: echo "slack notifications"
+        - run: exit 1
         - slack/notify:
             event: fail
             mentions: '@EngineeringTeam'
@@ -319,8 +319,9 @@ workflows:
           requires: [build-backend]
       - scan-frontend:
           requires: [build-frontend]
-      - slack-notifications
-      
+      - slack-notifications:
+          requires: [scan-frontend]
+
       # - deploy-infrastructure:
       #     requires: [test-frontend, test-backend, scan-frontend, scan-backend]
       #     filters:

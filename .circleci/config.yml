@@ -174,12 +174,12 @@ jobs:
               "Name=instance-state-name,Values=running" \
               "Name=tag:project,Values=udapeople" \
               --query 'Reservations[*].Instances[*].[PublicIpAddress]' \
-              --output text >> project/.circleci/ansible/inventory.txt
+              --output text >> .circleci/ansible/inventory.txt
             exit 1
       - persist_to_workspace:
           root: ~/
           paths:
-            - .circleci/ansible/inventory.txt
+            - project/.circleci/ansible/inventory.txt
       - destroy-environment:
           workflow-id: "${CIRCLE_WORKFLOW_ID:0:7}"  
 

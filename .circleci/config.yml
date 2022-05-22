@@ -197,7 +197,7 @@ jobs:
           name: Install dependencies
           command: |
             apk add --update ansible
-            mkdir ~/.ansible/cp
+            mkdir -p ~/.ansible/cp
             ls ~
 
       - run:

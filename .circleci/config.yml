@@ -185,7 +185,7 @@ jobs:
 
   configure-infrastructure:
     docker:
-      - image: python:3.9-alpine
+      - image: python:3.9.0-alpine
     steps:
       - checkout
       - add_ssh_keys:
@@ -197,15 +197,14 @@ jobs:
           name: Install dependencies
           command: |
             apk add --update ansible
+            ansible --version
             apk add --no-cache aws-cli
-            mkdir -p ~/.ansible/cp
-            ls ~/project
 
       - run:
           name: Configure server
           command: |
             cat .circleci/ansible/inventory.txt
-            ansible-playbook -i .circleci/ansible/inventory.txt .circleci/ansible/configure-server.yml
+            ansible-playbook -i .circleci/ansible/inventory.txt .circleci/ansible/configure-server.yml -u root
       - destroy-environment:
           workflow-id: "${CIRCLE_WORKFLOW_ID:0:7}"  
 

@@ -230,7 +230,8 @@ jobs:
                 # If you are using kvdb.io
                 curl https://kvdb.io/KjgVfrUmBZYsMoeMnGANwN/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
             fi
-     # Here's where you will add some code to rollback on failure      
+      - destroy-environment:
+          workflow-id: "${CIRCLE_WORKFLOW_ID:0:7}"    
 
 #   deploy-frontend:
 #     docker:

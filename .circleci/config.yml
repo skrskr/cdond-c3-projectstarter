@@ -216,6 +216,9 @@ jobs:
     steps:
       - checkout
       - run:
+          name: install aws-cli for destroy environment
+          command: apt install awscli
+      - run:
           name: Run migrations
           command: |
             cd backend

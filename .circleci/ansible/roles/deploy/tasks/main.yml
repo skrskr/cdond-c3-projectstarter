@@ -1,6 +1,18 @@
+- name: "copy backend dist folder to server"
+  synchronize:
+    src: ../../backend/dist
+    dest: /home/ubuntu/backend_app
+    recursive: true
+
+- name: "copy backend node_modules folder to server"
+  synchronize:
+    src: ../../backend/node_modules
+    dest: /home/ubuntu/backend_app
+    recursive: true
+
 - name: Restart pm2
   command: |
       pm2 delete all
       pm2 start -f ./main.js
   args:
-    chdir: ~/backend/dist/
+    chdir: /home/ubuntu/backend_app/dist/

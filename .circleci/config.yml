@@ -297,6 +297,7 @@ jobs:
             apk add --update ansible
             ansible --version
             apk add --no-cache aws-cli
+            apk --no-cache add curl
             aws --version
       - run:
           name: Deploy backend

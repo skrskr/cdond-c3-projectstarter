@@ -1,10 +1,12 @@
 - name: "copy backend dist folder to server"
+  become: true
   synchronize:
     src: ../../backend/dist
     dest: /home/ubuntu/backend_app
     recursive: true
 
 - name: "copy backend node_modules folder to server"
+  become: true
   synchronize:
     src: ../../backend/node_modules
     dest: /home/ubuntu/backend_app

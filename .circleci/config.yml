@@ -15,10 +15,10 @@ commands:
           name: Destroy environments
           when: on_fail
           command: |
+            aws s3 rm --recursive s3://udapeople-<< parameters.workflow-id >>
             aws cloudformation delete-stack \
               --stack-name udapeople-backend-<< parameters.workflow-id >> \
               --region us-east-1
-            aws s3 rm --recursive s3://udapeople-<< parameters.workflow-id >>
             aws cloudformation delete-stack \
               --stack-name udapeople-frontend-<< parameters.workflow-id >> \
               --region us-east-1

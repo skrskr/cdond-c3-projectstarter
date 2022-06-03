@@ -1,26 +1,25 @@
-- name: install rsync on the ansible controller
-  connection: local
-  package:
-    name: rsync
-    state: present
+# - name: install rsync on the ansible controller
+#   connection: local
+#   package:
+#     name: rsync
+#     state: present
 
-- name: "copy backend dist folder to server"
-  become: true
-  synchronize:
-    src: ../../backend/dist
-    dest: /home/ubuntu/backend_app
-    recursive: true
+# - name: "copy backend dist folder to server"
+#   become: true
+#   synchronize:
+#     src: ../../backend/dist
+#     dest: /home/ubuntu/backend_app
+#     recursive: true
 
-- name: "copy backend node_modules folder to server"
-  become: true
-  synchronize:
-    src: ../../backend/node_modules
-    dest: /home/ubuntu/backend_app
-    recursive: true
+# - name: "copy backend node_modules folder to server"
+#   become: true
+#   synchronize:
+#     src: ../../backend/node_modules
+#     dest: /home/ubuntu/backend_app
+#     recursive: true
 
 - name: Restart pm2
   command: |
+      pwd
       pm2 delete all
-      pm2 start -f ./main.js
-  args:
-    chdir: /home/ubuntu/backend_app/dist/
+      pm2 start -f ../../backend/dist/main.js

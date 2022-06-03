@@ -23,17 +23,18 @@
     path: ~/backend_app
     state: directory
 
-- name: "copy dist files"  
-  copy:
+- name: "list files "
+  command: ls -la
+
+- name: "copy dist files"
+  synchronize:
     src: ../../backend/dist
     dest: ~/backend_app
-    remote_src: yes
 
 - name: "copy node_modules files"  
-  copy:
+  synchronize:
     src: ../../backend/node_modules
     dest: ~/backend_app
-    remote_src: yes
 
 - name: delete all pm2 process
   command: |

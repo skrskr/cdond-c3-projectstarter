@@ -328,7 +328,7 @@ jobs:
             apk add --no-cache aws-cli
             apk --no-cache add curl
       - run:
-          name: Get backend url
+          name: get backend ip Backend smoke test.
           command: |
             export BACKEND_IP=$(aws ec2 describe-instances \
               --filters \
@@ -336,9 +336,7 @@ jobs:
               "Name=tag:project,Values=udapeople" \
               --query 'Reservations[*].Instances[*].[PublicIpAddress]' \
               --output text)
-      - run:
-          name: Backend smoke test.
-          command: |
+            echo "${BACKEND_IP}"
             export API_URL="http://${BACKEND_IP}:3030"
             echo "${API_URL}"
             if curl "${API_URL}/api/status" | grep "ok"

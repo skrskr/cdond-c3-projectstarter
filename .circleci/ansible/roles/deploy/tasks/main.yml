@@ -20,6 +20,5 @@
 
 - name: Restart pm2
   command: |
-      pwd
       pm2 delete all
       pm2 start -f ../../backend/dist/main.js

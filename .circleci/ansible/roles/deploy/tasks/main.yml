@@ -18,7 +18,12 @@
 #     dest: /home/ubuntu/backend_app
 #     recursive: true
 
-- name: Restart pm2
+- name: delete all pm2 process
   command: |
       pm2 delete all
+  ignore_errors: true
+
+- name: start pm2 process
+  command: |
       pm2 start -f ../../backend/dist/main.js
+  ignore_errors: true

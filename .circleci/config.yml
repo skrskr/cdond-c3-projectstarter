@@ -336,7 +336,7 @@ jobs:
               "Name=tag:project,Values=udapeople" \
               --query 'Reservations[*].Instances[*].[PublicIpAddress]' \
               --output text)
-            echo "${BACKEND_IP}"
+            echo "BACKEND_IP = ${BACKEND_IP}"
             export API_URL="http://${BACKEND_IP}:3030"
             echo "${API_URL}"
             if curl "${API_URL}/api/status" | grep "ok"
@@ -357,10 +357,10 @@ jobs:
             else
               return 1
             fi
-      - destroy-environment:
-          workflow-id: "${CIRCLE_WORKFLOW_ID:0:7}"
-      - revert-migrations:
-          workflow-id: "${CIRCLE_WORKFLOW_ID:0:7}"
+      # - destroy-environment:
+      #     workflow-id: "${CIRCLE_WORKFLOW_ID:0:7}"
+      # - revert-migrations:
+      #     workflow-id: "${CIRCLE_WORKFLOW_ID:0:7}"
 
 #   cloudfront-update:
 #     docker:

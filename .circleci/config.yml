@@ -299,6 +299,7 @@ jobs:
             apk add --no-cache aws-cli
             apk --no-cache add curl
             aws --version
+            apk --no-cache add rsync
       - run:
           name: Deploy backend
           command: |

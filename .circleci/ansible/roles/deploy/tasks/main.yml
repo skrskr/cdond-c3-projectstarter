@@ -18,6 +18,12 @@
 #     dest: /home/ubuntu/backend_app
 #     recursive: true
 
+- name: Find out playbooks path
+  shell: pwd
+  register: playbook_path_output
+
+- debug: var=playbook_path_output.stdout
+
 - name: "Creates backend_app dirctory"
   file:
     path: ~/backend_app

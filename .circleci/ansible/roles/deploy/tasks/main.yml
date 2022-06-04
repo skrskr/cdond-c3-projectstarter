@@ -18,8 +18,12 @@
 #     dest: /home/ubuntu/backend_app
 #     recursive: true
 
+- name: show env
+  shell: env
+
+
 - name: Find out playbooks path
-  shell: pwd
+  shell: ls -la
   register: playbook_path_output
 
 - debug: var=playbook_path_output.stdout
@@ -29,18 +33,18 @@
     path: ~/backend_app
     state: directory
 
-- name: "list files "
-  command: ls -la
-
 - name: "copy dist files"
-  synchronize:
+  copy:
     src: ../../backend/dist
     dest: ~/backend_app
+    remote_src: true
 
 - name: "copy node_modules files"  
-  synchronize:
+  copy:
     src: ../../backend/node_modules
     dest: ~/backend_app
+    remote_src: true
+    
 
 - name: delete all pm2 process
   command: |

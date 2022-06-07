@@ -1,33 +1,3 @@
-# - name: install rsync on the ansible controller
-#   connection: local
-#   package:
-#     name: rsync
-#     state: present
-
-# - name: "copy backend dist folder to server"
-#   become: true
-#   synchronize:
-#     src: ../../backend/dist
-#     dest: /home/ubuntu/backend_app
-#     recursive: true
-
-# - name: "copy backend node_modules folder to server"
-#   become: true
-#   synchronize:
-#     src: ../../backend/node_modules
-#     dest: /home/ubuntu/backend_app
-#     recursive: true
-
-- name: show env
-  shell: env
-
-
-- name: Find out playbooks path
-  shell: ls -la
-  register: playbook_path_output
-
-- debug: var=playbook_path_output.stdout
-
 - name: "Creates backend_app dirctory"
   file:
     path: ~/backend_app
@@ -35,23 +5,36 @@
 
 - name: "copy dist files"
   copy:
-    src: ./../../backend/dist
+    src: artifact.tar.gz
     dest: ~/backend_app
-    remote_src: true
 
-- name: "copy node_modules files"  
-  copy:
-    src: ./../../backend/node_modules
+- name: "unarchive artifact"
+  unarchive:
+    src: artifact.tar.gz
     dest: ~/backend_app
-    remote_src: true
-    
+
+- name: "install node dependencies"
+  command: npm i 
+  args:
+    chdir: ~/backend_app
 
 - name: delete all pm2 process
   command: |
       pm2 delete all
   ignore_errors: true
 
-- name: start pm2 process
-  command: |
-      pm2 start ~/backend_app/dist/main.js -f
-  ignore_errors: true
+- name: start app
+  command:  pm2 start main.js
+  args:
+    chdir: ~/backend_app/dist
+  environment:
+      ENVIRONMENT: production
+      TYPEORM_CONNECTION: "{{ lookup('env', 'TYPEORM_CONNECTION') }}"
+      TYPEORM_MIGRATIONS_DIR: "./migrations"
+      TYPEORM_MIGRATIONS: "./migrations/*.js"
+      TYPEORM_ENTITIES: "./modules/domain/**/*.entity.js"
+      TYPEORM_HOST: "{{ lookup('env', 'TYPEORM_HOST') }}"
+      TYPEORM_PORT: "{{ lookup('env', 'TYPEORM_PORT') }}"
+      TYPEORM_USERNAME: "{{ lookup('env', 'TYPEORM_USERNAME') }}"
+      TYPEORM_PASSWORD: "{{ lookup('env', 'TYPEORM_PASSWORD') }}"
+      TYPEORM_DATABASE: "{{ lookup('env', 'TYPEORM_DATABASE') }}"
